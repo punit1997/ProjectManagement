@@ -35,5 +35,15 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
+      ];
+
+    public function team()
+    {
+      return $this->belongsTo('App\Team');
+    }
+
+    public function lead()
+    {
+      return $this->hasOne('App\Team', 'lead_id');
+    }
 }
