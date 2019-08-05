@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-     public function showTeam($user_id)
+     public function showTeam()
      {
        $team = Auth::user()->team;
-
        return response()->json(['Team Name' => $team->name, 'Team Lead' => $team->lead->name]);
+     }
+
+     public function showProjects()
+     {
+       $projects = Auth::user()->projects;
+       return response()->json(['My Projects' => $projects->map->only(['description'])]);
      }
 }

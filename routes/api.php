@@ -16,5 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/user/{user_id}/team', 'UserController@showTeam')->middleware(['basicauth']);
+Route::middleware(['basicauth'])->group(function () {
+    Route::get('/user/team', 'UserController@showTeam')->middleware(['basicauth']);
+    Route::get('/user/projects', 'UserController@showProjects')->middleware(['basicauth']);
+});
