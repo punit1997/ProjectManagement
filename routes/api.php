@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware(['basicauth'])->group(function () {
     Route::get('/user/team', 'UserController@showTeam')->middleware(['basicauth']);
     Route::get('/user/projects', 'UserController@showProjects')->middleware(['basicauth']);
+    Route::get('/user/team_members', 'UserController@teamMembers')->middleware(['basicauth']);
 });
