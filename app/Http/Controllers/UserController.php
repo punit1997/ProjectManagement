@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Team;
+use App\Project;
 class UserController extends Controller
 {
      public function showTeam()
@@ -24,6 +25,12 @@ class UserController extends Controller
        $team = Auth::user()->team_id;
        $members = Team::find($team)->users;
        return response()->json(['Team Member' => $members->map->only(['name','email'])]);
-      }
+     }
+
+     public function projectMembers($project_id)
+     {
+       $members = Project::find($project_id)->users;
+       return response()->json(['Project Member' => $members->map->only(['name','email'])]);
+     }
 
 }
