@@ -42,8 +42,9 @@ class User extends Authenticatable
       return $this->belongsTo('App\Team');
     }
 
-    public function lead()
-    {
-      return $this->hasOne('App\Team', 'lead_id');
-    }
+    public function teamLead()
+   {
+      return $this->belongsTo('App\Team', 'lead_id');
+   }
+
 }

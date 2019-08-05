@@ -16,8 +16,9 @@ class Team extends Model
     return $this->hasMany('App\Project');
   }
 
-  public function teamLead()
-  {
-    return $this->belongsTo('App\User', 'lead_id');
-  }
+  public function lead()
+    {
+      return $this->hasOne('App\User', 'lead_id');
+    }
+
 }
