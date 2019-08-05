@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectTeamTable extends Migration
+class AddTeamIdToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateProjectTeamTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_team', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
-            $table->biginteger('project_id')->unsigned();
+        Schema::table('users', function (Blueprint $table) {
             $table->biginteger('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('teams');
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->biginteger('lead_id')->unsigned()->nullable();
+            $table->foreign('lead_id')->references('id')->on('teams');
         });
     }
 
@@ -30,6 +28,9 @@ class CreateProjectTeamTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_team');
+        Schema::table('users', function (Blueprint $table) {
+          $table->dropColumn('team_id'); 
+          $table->dropColumn('lead_id');
+        });
     }
 }

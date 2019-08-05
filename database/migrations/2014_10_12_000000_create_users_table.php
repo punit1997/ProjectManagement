@@ -20,8 +20,6 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
-            $table->biginteger('team_id')->unsigned();
-            $table->foreign('team_id')->references('id')->on('teams');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,6 +32,9 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('users');
+        Schema::enableForeignKeyConstraints();
+ 
     }
 }
