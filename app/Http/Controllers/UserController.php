@@ -34,7 +34,7 @@ class UserController extends Controller
 
       public function update(Request $request, $user_id)
       {
-
+         $this->authorize('update', User::class);
          $user = User::find($user_id);
 
          if($request->has('name'))

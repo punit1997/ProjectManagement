@@ -13,4 +13,10 @@ class UserPolicy
     {
         return $user->role == "admin";
     }
+
+    public function update(User $user)
+    {
+        return $user->role == "admin";
+    }
+
 }
