@@ -10,6 +10,7 @@ class TeamController extends Controller
 {
    public function create(Request $request)
    {
+      $this->authorize('create', Team::class);
       $request->validate(['name'=> 'required', 'lead_id'=> 'required']);
       $users = User::all();
       $lead  = $users->find($request->lead_id);
