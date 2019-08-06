@@ -18,10 +18,10 @@ class ProjectController extends Controller
 
   public function addMemberToProject($projectId, $userId)
   {
+   
     $team = Auth::user()->teamLead;
     $user = $team->users->find($userId);
     $project = $team->projects->find($projectId);
-
     if($user==NULL || $project==NULL)
     {
       return "Invalid project/user ID";
@@ -44,5 +44,18 @@ class ProjectController extends Controller
     DB::table('project_user')->where([
       ['project_id','=',$projectId], ['user_id','=',$userId]
       ])->delete();
+  }
+
+  public function destroy($projectId)
+  {
+    $team = Auth::user()->teamLead;
+    $project = $team->projects->find($projectId);
+
+    if($project == NULL)
+    {
+      return "Invalid project/user ID";
+    }
+    
+    $project->delete();
   }
 }
