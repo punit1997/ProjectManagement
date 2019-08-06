@@ -21,4 +21,5 @@ Route::middleware(['basicauth'])->group(function () {
     Route::get('/user/projects', 'UserController@showProjects')->middleware(['basicauth']);
     Route::get('/user/team_members', 'UserController@teamMembers')->middleware(['basicauth']);
     Route::get('/user/project_members/{project_id}', 'UserController@projectMembers')->middleware(['basicauth']);
+    Route::post('/project/create', 'ProjectController@create')->middleware(['basicauth']);
 });

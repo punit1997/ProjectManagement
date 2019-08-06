@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+
+  protected $fillable = ['description' ,'team_id']; 
+
   public function team()
   {
     return $this->belongsTo('App\Team');
