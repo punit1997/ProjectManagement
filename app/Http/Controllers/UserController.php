@@ -82,6 +82,8 @@ class UserController extends Controller
 
      public function projectMembers($project_id)
      {
+       $project = Project::find($project_id);
+       $this->authorize('show', $project);
        $members = Project::find($project_id)->users;
        return response()->json(['Project Member' => $members->map->only(['name','email'])]);
      }
