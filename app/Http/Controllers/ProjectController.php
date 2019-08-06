@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -11,6 +12,7 @@ class ProjectController extends Controller
 {
   public function create(Request $request)
   {
+    $this->authorize('create', Project::class);
     $team = Auth::user()->teamLead;
     $request->validate(['description'=> 'required']);
     Project::create(['description'=>$request->description, 'team_id'=>$team->id]);
@@ -18,28 +20,20 @@ class ProjectController extends Controller
 
   public function addMemberToProject($projectId, $userId)
   {
-   
-    $team = Auth::user()->teamLead;
-    $user = $team->users->find($userId);
-    $project = $team->projects->find($projectId);
-    if($user==NULL || $project==NULL)
-    {
-      return "Invalid project/user ID";
-    }
+    $user = User::find($userId);
+    $project = Project::find($projectId);
+    $this->authorize('checkProject', $project);
+    $this->authorize('checkUser', $user);
 
     DB::table('project_user')->insert(['project_id' => $project->id, 'user_id' => $user->id]);
   }
 
   public function removeMemberFromProject($projectId, $userId)
   {
-    $team = Auth::user()->teamLead;
-    $user = $team->users->find($userId);
-    $project = $team->projects->find($projectId);
-
-    if($user == NULL || $project == NULL)
-    {
-      return "Invalid project/user ID";
-    }
+    $user = User::find($userId);
+    $project = Project::find($projectId);
+    $this->authorize('checkProject', $project);
+    $this->authorize('checkUser', $user);
 
     DB::table('project_user')->where([
       ['project_id','=',$projectId], ['user_id','=',$userId]
@@ -48,14 +42,8 @@ class ProjectController extends Controller
 
   public function destroy($projectId)
   {
-    $team = Auth::user()->teamLead;
-    $project = $team->projects->find($projectId);
-
-    if($project == NULL)
-    {
-      return "Invalid project/user ID";
-    }
-    
+    $project = Project::find($projectId);
+    $this->authorize('checkProject', $project);
     $project->delete();
   }
 }

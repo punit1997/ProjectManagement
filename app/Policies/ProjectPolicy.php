@@ -13,4 +13,16 @@ class ProjectPolicy
     {
         return $user->team_id == $project->team_id;
     }
+
+    public function create(User $user)
+    {
+        return $user->role == "Team Lead";
+    }
+
+    public function checkProject(User $user, Project $project)
+    {
+        return $user->role == "Team Lead" && $project->team_id == $user->team_id;
+    }
+
+   
 }

@@ -19,4 +19,8 @@ class UserPolicy
         return $user->role == "admin";
     }
 
+    public function checkUser(User $user, User $userToAdd)
+    {
+        return $user->role == "Team Lead" && $userToAdd->team_id == $user->team_id;
+    }
 }
