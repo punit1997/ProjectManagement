@@ -29,4 +29,20 @@ class ProjectController extends Controller
 
     DB::table('project_user')->insert(['project_id' => $project->id, 'user_id' => $user->id]);
   }
+
+  public function removeMemberFromProject($projectId, $userId)
+  {
+    $team = Auth::user()->teamLead;
+    $user = $team->users->find($userId);
+    $project = $team->projects->find($projectId);
+
+    if($user == NULL || $project == NULL)
+    {
+      return "Invalid project/user ID";
+    }
+
+    DB::table('project_user')->where([
+      ['project_id','=',$projectId], ['user_id','=',$userId]
+      ])->delete();
+  }
 }

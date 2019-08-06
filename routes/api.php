@@ -26,4 +26,5 @@ Route::middleware(['basicauth'])->group(function () {
     Route::post('/team/create', 'TeamController@create')->middleware(['basicauth']);
     Route::post('/user/create', 'UserController@create')->middleware(['basicauth']); 
     Route::post('/user/edit/{user_id}', 'UserController@update')->middleware(['basicauth']);
+    Route::delete('/project/{projectId}/{userId}', 'ProjectController@removeMemberFromProject')->middleware(['basicauth']);
 });
