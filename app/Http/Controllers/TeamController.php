@@ -22,7 +22,5 @@ class TeamController extends Controller
       $team = Team::create(['name'=>$request->name]);
       $lead->lead_id = $team->id;
       $lead->save();
-    }
-
-
+   }
 }
