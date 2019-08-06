@@ -14,10 +14,11 @@ class UserController extends Controller
 {
      public function create(Request $request)
      {
+       $this->authorize('create', User::class);
        $request->validate(['name'=>'required', 'email'=>'required', 'role'=>'required', 'team_id'=>'required']);
        $user = new User;
        $team = Team::find($request->team_id);
-     
+
        if($team == NULL)
        {
          return ("Invalid Team");
