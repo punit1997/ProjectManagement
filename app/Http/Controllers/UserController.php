@@ -31,6 +31,35 @@ class UserController extends Controller
        $user->save();
      }
 
+      public function update(Request $request, $user_id)
+      {
+
+         $user = User::find($user_id);
+
+         if($request->has('name'))
+         {
+           $user->name = $request->name;
+         }
+
+         if($request->has('email'))
+         {
+          $user->email = $request->email;
+         }
+
+         if($request->has('role'))
+         {
+          $user->role = $request->role;
+         }
+
+         if($request->has('password'))
+         {
+          $user->password = $request->password;
+         }
+
+         $user->save();
+     }
+
+
      public function showTeam()
      {
        $team = Auth::user()->team;

@@ -24,5 +24,6 @@ Route::middleware(['basicauth'])->group(function () {
     Route::post('/project/create', 'ProjectController@create')->middleware(['basicauth']);
     Route::post('/project/{projectId}/{userId}', 'ProjectController@addMemberToProject')->middleware(['basicauth']);
     Route::post('/team/create', 'TeamController@create')->middleware(['basicauth']);
-    Route::post('/user/create', 'UserController@create')->middleware(['basicauth']);
+    Route::post('/user/create', 'UserController@create')->middleware(['basicauth']); 
+    Route::post('/user/edit/{user_id}', 'UserController@update')->middleware(['basicauth']);
 });
