@@ -19,8 +19,12 @@ class Team extends Model
   }
 
   public function lead()
-    {
-      return $this->hasOne('App\User', 'lead_id');
-    }
+  {
+    return $this->hasOne('App\User', 'lead_id');
+  }
 
+  public function invitations()
+  {
+    return $this->hasMany('App\Invitation');
+  }
 }
