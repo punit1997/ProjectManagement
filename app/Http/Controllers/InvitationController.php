@@ -15,34 +15,26 @@ class InvitationController extends Controller
   {
     $project = Project::find($projectId);
     $this->authorize('checkProject', $project);
-    $team = Auth::user()->teamLead;
-    $user = User::find($userId);
-    Invitation::create(['team_id' => $team->id, 'user_id' => $user->id, 'project_id' => $project->id]);
-
-    \Mail::to($user)->send(new SendInvitation($project));
+    Invitation::send_invitation($project, $userId);
   }
 
   public function acceptInvitation($invitationId)
   {
     $invitation = Invitation::find($invitationId);
     $this->authorize('checkInvitation', $invitation);
-    $invitation->status = "Accepted";
-    $invitation->save();
-
-    DB::table('project_user')->insert(['project_id' => $invitation->project_id, 'user_id' => Auth::user()->id]);
+    Invitation::send_invitation($invitation);
   }
 
   public function rejectInvitation($invitationId)
   {
     $invitation = Invitation::find($invitationId);
     $this->authorize('checkInvitation', $invitation);
-    $invitation->status = "rejected";
-    $invitation->save();
+    Invitation::reject_invitation($invitation);
+   
   }
 
   public function showMyInvitations()
   {
-    $user = Auth::user();
-    return response()->json(['My Invitations' => $user->invitations]);
+    return Invitation::show_my_invitation();
   }
 }

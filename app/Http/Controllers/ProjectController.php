@@ -13,23 +13,20 @@ class ProjectController extends Controller
   public function create(Request $request)
   {
     $this->authorize('create', Project::class);
-    $team = Auth::user()->teamLead;
-    $request->validate(['description'=> 'required']);
-    Project::create(['description'=>$request->description, 'team_id'=>$team->id]);
+    Project::create_project($request);
   }
- 
+
   public function showProjects()
-   {
-    $projects = Auth::user()->projects;
-    return response()->json(['My Projects' => $projects->map->only(['description'])]);
-   }
+  {
+    return Project::show_project();
+  }
 
    public function projectMembers($project_id)
    {
     $project = Project::find($project_id);
     $this->authorize('show', $project);
-    $members = Project::find($project_id)->users;
-    return response()->json(['Project Member' => $members->map->only(['name','email'])]);
+
+    return Project::show_project_members($projectId);
    }
 
 
@@ -39,9 +36,9 @@ class ProjectController extends Controller
     $project = Project::find($projectId);
     $this->authorize('checkProject', $project);
     $this->authorize('checkUser', $user);
-
-    DB::table('project_user')->insert(['project_id' => $project->id, 'user_id' => $user->id]);
-  }
+    
+    Project::create_project_member($projectId, $userId);
+   }
 
   public function removeMemberFromProject($projectId, $userId)
   {
@@ -50,15 +47,14 @@ class ProjectController extends Controller
     $this->authorize('checkProject', $project);
     $this->authorize('checkUser', $user);
 
-    DB::table('project_user')->where([
-      ['project_id','=',$projectId], ['user_id','=',$userId]
-      ])->delete();
-  }
+    Project::remove_project_member($projectId, $userId);
+    }
 
   public function destroy($projectId)
   {
     $project = Project::find($projectId);
     $this->authorize('checkProject', $project);
-    $project->delete();
+
+    Project::destroy($project);
   }
 }

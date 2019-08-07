@@ -9,32 +9,18 @@ use App\Team;
 class TeamController extends Controller
 {
    public function create(Request $request)
-   {
-      $this->authorize('create', Team::class);
-      $request->validate(['name'=> 'required', 'lead_id'=> 'required']);
-      $users = User::all();
-      $lead  = $users->find($request->lead_id);
-
-      if($lead == NULL)
-      {
-        return("Invalid lead id");
-      }
-
-      $team = Team::create(['name'=>$request->name]);
-      $lead->lead_id = $team->id;
-      $lead->save();
+   { 
+     $this->authorize('create', Team::class);
+     Team::create_team($request);
    }
 
    public function showTeam()
    {
-     $team = Auth::user()->team;
-     return response()->json(['Team Name' => $team->name, 'Team Lead' => $team->lead->name]);
+     return Team::show_team();
    }
 
    public function teamMembers()
-     {
-       $team = Auth::user()->team_id;
-       $members = Team::find($team)->users;
-       return response()->json(['Team Member' => $members->map->only(['name','email'])]);
-     }
+   {
+     return Team::team_members();
+   }
 }
