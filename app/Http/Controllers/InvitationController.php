@@ -6,6 +6,7 @@ use App\Invitation;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Mail\SendInvitation;
 
 class InvitationController extends Controller
 {
@@ -16,6 +17,8 @@ class InvitationController extends Controller
     $team = Auth::user()->teamLead;
     $user = User::find($userId);
     Invitation::create(['team_id' => $team->id, 'user_id' => $user->id, 'project_id' => $project->id]);
+    
+    \Mail::to($user)->send(new SendInvitation($project));
   }
 
   public function acceptInvitation($invitationId)
