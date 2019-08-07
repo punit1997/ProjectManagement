@@ -31,4 +31,6 @@ Route::middleware(['basicauth'])->group(function () {
     Route::post('/invitation/{projectId}/{userId}', 'InvitationController@sendInvitation')->middleware(['basicauth']);    
     Route::patch('/invitation/{invitationId}/accept', 'InvitationController@acceptInvitation')->middleware(['basicauth']); 
     Route::patch('/invitation/{invitationId}/reject', 'InvitationController@rejectInvitation')->middleware(['basicauth']);
+    Route::get('/invitations/show', 'InvitationController@showMyInvitations')->middleware(['basicauth']);
+ 
 });

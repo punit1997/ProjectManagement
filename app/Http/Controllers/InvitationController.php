@@ -33,4 +33,10 @@ class InvitationController extends Controller
     $invitation->status = "rejected";
     $invitation->save();
   }
+
+  public function showMyInvitations()
+  {
+    $user = Auth::user();
+    return response()->json(['My Invitations' => $user->invitations]);
+  }
 }
