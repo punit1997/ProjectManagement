@@ -17,4 +17,12 @@ class InvitationController extends Controller
     $user = User::find($userId);
     Invitation::create(['team_id' => $team->id, 'user_id' => $user->id, 'project_id' => $project->id]);
   }
+
+  public function acceptInvitation($invitationId)
+  {
+    $invitation = Invitation::find($invitationId);
+    $this->authorize('checkInvitation', $invitation);
+    $invitation->status = "Accepted";
+    $invitation->save();
+  }
 }

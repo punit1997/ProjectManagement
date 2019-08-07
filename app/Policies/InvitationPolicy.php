@@ -15,4 +15,9 @@ class InvitationPolicy
        return $user->role == "Team Lead";
     }
 
+    public function checkInvitation(User $user, Invitation $invitation)
+    {
+       return $user->id == $invitation->user_id;
+    }
+
 }
