@@ -17,10 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['basicauth'])->group(function () {
-    Route::get('/user/team', 'UserController@showTeam')->middleware(['basicauth']);
-    Route::get('/user/projects', 'UserController@showProjects')->middleware(['basicauth']);
-    Route::get('/user/team_members', 'UserController@teamMembers')->middleware(['basicauth']);
-    Route::get('/user/project_members/{project_id}', 'UserController@projectMembers')->middleware(['basicauth']);
+    Route::get('/team', 'TeamController@showTeam')->middleware(['basicauth']);
+    Route::get('/projects', 'ProjectController@showProjects')->middleware(['basicauth']);
+    Route::get('/team_members', 'TeamController@teamMembers')->middleware(['basicauth']);
+    Route::get('/project_members/{project_id}', 'ProjectController@projectMembers')->middleware(['basicauth']);
     Route::post('/project/create', 'ProjectController@create')->middleware(['basicauth']);
     Route::post('/project/{projectId}/{userId}', 'ProjectController@addMemberToProject')->middleware(['basicauth']);
     Route::post('/team/create', 'TeamController@create')->middleware(['basicauth']);
@@ -32,5 +32,4 @@ Route::middleware(['basicauth'])->group(function () {
     Route::patch('/invitation/{invitationId}/accept', 'InvitationController@acceptInvitation')->middleware(['basicauth']); 
     Route::patch('/invitation/{invitationId}/reject', 'InvitationController@rejectInvitation')->middleware(['basicauth']);
     Route::get('/invitations/show', 'InvitationController@showMyInvitations')->middleware(['basicauth']);
- 
 });

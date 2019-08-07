@@ -60,31 +60,4 @@ class UserController extends Controller
          $user->save();
      }
 
-
-     public function showTeam()
-     {
-       $team = Auth::user()->team;
-       return response()->json(['Team Name' => $team->name, 'Team Lead' => $team->lead->name]);
-     }
-
-     public function showProjects()
-     {
-       $projects = Auth::user()->projects;
-       return response()->json(['My Projects' => $projects->map->only(['description'])]);
-     }
-
-     public function teamMembers()
-     {
-       $team = Auth::user()->team_id;
-       $members = Team::find($team)->users;
-       return response()->json(['Team Member' => $members->map->only(['name','email'])]);
-     }
-
-     public function projectMembers($project_id)
-     {
-       $project = Project::find($project_id);
-       $this->authorize('show', $project);
-       $members = Project::find($project_id)->users;
-       return response()->json(['Project Member' => $members->map->only(['name','email'])]);
-     }
 }

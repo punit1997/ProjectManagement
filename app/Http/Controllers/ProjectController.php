@@ -17,6 +17,21 @@ class ProjectController extends Controller
     $request->validate(['description'=> 'required']);
     Project::create(['description'=>$request->description, 'team_id'=>$team->id]);
   }
+ 
+  public function showProjects()
+   {
+    $projects = Auth::user()->projects;
+    return response()->json(['My Projects' => $projects->map->only(['description'])]);
+   }
+
+   public function projectMembers($project_id)
+   {
+    $project = Project::find($project_id);
+    $this->authorize('show', $project);
+    $members = Project::find($project_id)->users;
+    return response()->json(['Project Member' => $members->map->only(['name','email'])]);
+   }
+
 
   public function addMemberToProject($projectId, $userId)
   {

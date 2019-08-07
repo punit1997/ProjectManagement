@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Team;
@@ -24,4 +24,17 @@ class TeamController extends Controller
       $lead->lead_id = $team->id;
       $lead->save();
    }
+
+   public function showTeam()
+   {
+     $team = Auth::user()->team;
+     return response()->json(['Team Name' => $team->name, 'Team Lead' => $team->lead->name]);
+   }
+
+   public function teamMembers()
+     {
+       $team = Auth::user()->team_id;
+       $members = Team::find($team)->users;
+       return response()->json(['Team Member' => $members->map->only(['name','email'])]);
+     }
 }
