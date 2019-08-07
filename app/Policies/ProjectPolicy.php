@@ -11,7 +11,7 @@ class ProjectPolicy
     use HandlesAuthorization;
     public function show(User $user, Project $project)
     {
-        return $user->team_id == $project->team_id;
+      return $project->users->contains($user);
     }
 
     public function create(User $user)
@@ -23,6 +23,4 @@ class ProjectPolicy
     {
         return $user->role == "Team Lead" && $project->team_id == $user->team_id;
     }
-
-   
 }
