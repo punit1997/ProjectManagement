@@ -3,16 +3,16 @@
 namespace App\Policies;
 
 use App\User;
-use App\=Team;
+use App\Invitation;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TeamPolicy
+class InvitationPolicy
 {
     use HandlesAuthorization;
-    
-    public function create(User $user)
+
+    public function checkRole(User $user)
     {
-        return $user->role == "admin";
+       return $user->role == "Team Lead";
     }
 
-    }
+}

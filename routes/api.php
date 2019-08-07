@@ -28,4 +28,5 @@ Route::middleware(['basicauth'])->group(function () {
     Route::patch('/user/{user_id}', 'UserController@update')->middleware(['basicauth']);
     Route::delete('/project/{projectId}/{userId}', 'ProjectController@removeMemberFromProject')->middleware(['basicauth']);
     Route::delete('/project/{projectId}/', 'ProjectController@destroy')->middleware(['basicauth']);
+    Route::post('/invitation/{projectId}/{userId}', 'InvitationController@sendInvitation')->middleware(['basicauth']);
 });
