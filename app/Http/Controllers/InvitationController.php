@@ -25,4 +25,12 @@ class InvitationController extends Controller
     $invitation->status = "Accepted";
     $invitation->save();
   }
+
+  public function rejectInvitation($invitationId)
+  {
+    $invitation = Invitation::find($invitationId);
+    $this->authorize('checkInvitation', $invitation);
+    $invitation->status = "rejected";
+    $invitation->save();
+  }
 }
