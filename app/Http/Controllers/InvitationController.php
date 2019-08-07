@@ -24,6 +24,8 @@ class InvitationController extends Controller
     $this->authorize('checkInvitation', $invitation);
     $invitation->status = "Accepted";
     $invitation->save();
+
+    DB::table('project_user')->insert(['project_id' => $invitation->project_id, 'user_id' => Auth::user()->id]);
   }
 
   public function rejectInvitation($invitationId)
